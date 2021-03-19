@@ -80,4 +80,14 @@ class UsersController extends Controller
         ]);
     }
     
+    public function favorites($id)
+    {
+        $user = User::findOrFail($id);
+        $user->loadRelationshipCounts();
+        $favorites = $user->favorites()->paginate(10); // Micropostの配列（コレクション）が返る
+        return view('users.favorites', [
+            'user' => $user,
+            'microposts' => $favorites,
+        ]);  
+    }
 }
